@@ -27,26 +27,37 @@ let UsersService = exports.UsersService = class UsersService {
         this.userProjectRepository = userProjectRepository;
     }
     async createUser(body) {
-        try {
-            body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
-            return await this.userRepository.save(body);
-        }
-        catch (error) {
-            throw new common_1.InternalServerErrorException('some error');
-        }
+        body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
+        const users = [
+            {
+                username: 'fedeasdre2',
+                password: 'passr',
+            },
+            {
+                username: 'federasde2',
+                password: 'passr',
+            },
+        ];
+        await this.userRepository
+            .createQueryBuilder()
+            .insert()
+            .into('users')
+            .values(users)
+            .execute();
     }
     async seedUser(body) {
         const quantity = body.quantity;
         await data_source_1.AppDS.initialize();
         const queryRunner = data_source_1.AppDS.createQueryRunner();
         await queryRunner.query('TRUNCATE TABLE "users" CASCADE');
+        const userArray = [];
         for (let iterations = 0; iterations < quantity; iterations++) {
             const username = faker_1.faker.internet.userName();
-            const pass = faker_1.faker.internet.password();
-            const password = await bcrypt.hash(pass, +process.env.HASH_SALT);
+            const password = faker_1.faker.internet.password();
             const user = { username, password };
-            await this.createUser(user);
+            userArray.push(user);
         }
+        await this.userRepository.save(userArray);
         await data_source_1.AppDS.destroy();
         return `${quantity} users created`;
     }

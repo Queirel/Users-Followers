@@ -34,23 +34,26 @@ let FollowersService = exports.FollowersService = class FollowersService {
         const users = await this.userRepository.find();
         const userQuantity = users.length;
         const quantity = body.quantity;
-        console.log(quantity);
         await data_source_1.AppDS.initialize();
         const queryRunner = data_source_1.AppDS.createQueryRunner();
-        await queryRunner.query('TRUNCATE TABLE "followers" CASCADE');
+        const followArray = [];
         for (let xUser = 0; xUser < userQuantity; xUser++) {
             for (let xFollow = 0; xFollow < quantity; xFollow++) {
                 const follow = {
                     follower_id: users[xUser].id,
                     following_id: users[Math.floor(Math.random() * userQuantity)].id,
                 };
-                console.log(follow);
-                await this.followersRepository.save(follow);
+                followArray.push(follow);
             }
         }
+        await this.followersRepository
+            .createQueryBuilder()
+            .insert()
+            .into('followers')
+            .values(followArray)
+            .execute();
         await data_source_1.AppDS.destroy();
         const records = quantity * userQuantity;
-        console.log(records);
         return `Seed complete. ${records} records created. Now ${userQuantity} users follow ${quantity} each`;
     }
 };

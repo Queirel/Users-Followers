@@ -6,7 +6,7 @@ export declare class UsersService {
     private readonly userRepository;
     private readonly userProjectRepository;
     constructor(userRepository: Repository<UsersEntity>, userProjectRepository: Repository<UsersProjectsEntity>);
-    createUser(body: UserDTO): Promise<UsersEntity>;
+    createUser(body: any): Promise<void>;
     seedUser(body: QuantityDTO): Promise<string>;
     findUsers(): Promise<UsersEntity[]>;
     findUserById(id: string): Promise<UsersEntity>;

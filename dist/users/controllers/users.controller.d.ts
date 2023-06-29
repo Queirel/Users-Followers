@@ -1,9 +1,9 @@
-import { QuantityDTO, UserDTO, UserToProjectDTO, UserUpdateDTO } from '../dto/user.dto';
+import { QuantityDTO, UserToProjectDTO, UserUpdateDTO } from '../dto/user.dto';
 import { UsersService } from '../services/users.service';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    registerUser(body: UserDTO): Promise<import("../entities/users.entity").UsersEntity>;
+    registerUser(body: any): Promise<void>;
     seedUser(body: QuantityDTO): Promise<string>;
     findAllUsers(): Promise<import("../entities/users.entity").UsersEntity[]>;
     findUserById(id: string): Promise<import("../entities/users.entity").UsersEntity>;

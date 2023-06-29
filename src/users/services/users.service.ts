@@ -23,13 +23,31 @@ export class UsersService {
     private readonly userProjectRepository: Repository<UsersProjectsEntity>,
   ) {}
 
-  public async createUser(body: UserDTO): Promise<UsersEntity> {
-    try {
-      body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
-      return await this.userRepository.save(body);
-    } catch (error) {
-      throw new InternalServerErrorException('some error');
-    }
+  public async createUser(body) {
+    // try {
+    body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
+    // return await this.userRepository.save(body);
+    const users = [
+      {
+        username: 'fedeasdre2',
+        password: 'passr',
+      },
+      {
+        username: 'federasde2',
+        password: 'passr',
+      },
+    ];
+
+    await this.userRepository
+      .createQueryBuilder()
+      .insert()
+      .into('users')
+      .values(users)
+      .execute();
+    // return body;
+    // } catch (error) {
+    //   throw new InternalServerErrorException('some error');
+    // }
   }
 
   // public async seedUser(body: SeedUserDTO): Promise<UsersEntity[]> {
@@ -38,23 +56,50 @@ export class UsersService {
     const quantity = body.quantity;
     await AppDS.initialize();
     const queryRunner = AppDS.createQueryRunner();
-    // await queryRunner.startTransaction();
+    // await queryRunner.connect();
     await queryRunner.query('TRUNCATE TABLE "users" CASCADE');
+    // await queryRunner.startTransaction();
+
+    // try {
+    const userArray = [];
     for (let iterations = 0; iterations < quantity; iterations++) {
       const username = faker.internet.userName();
-      const pass = faker.internet.password();
-      const password = await bcrypt.hash(pass, +process.env.HASH_SALT);
+      const password = faker.internet.password();
+      // username = username + '123';
+      // const password = await bcrypt.hash(pass, +process.env.HASH_SALT);
       const user = { username, password };
-      await this.createUser(user);
+      userArray.push(user);
+
+      // if (userArray.length > 999) {
+      //   await this.userRepository.save(userArray);
+      //   userArray = [];
+
+      // }
     }
-    // await queryRunner.commitTransaction();
-    // await queryRunner.release();
+    await this.userRepository.save(userArray);
+    // await this.userRepository
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into('users')
+    //   .values(userArray)
+    //   .execute();
     await AppDS.destroy();
+
+    // await queryRunner.commitTransaction();
+    // } catch (err) {
+    // since we have errors let's rollback changes we made
+    // await queryRunner.rollbackTransaction();
+    // } finally {
+    // you need to release query runner which is manually created:
+    // await queryRunner.release();
+    // await AppDS.destroy();
     return `${quantity} users created`;
-    // } catch (error) {
-    //   throw new InternalServerErrorException('some error');
-    // }
   }
+  // await AppDS.destroy();
+
+  // } catch (error) {
+  //   throw new InternalServerErrorException('some error');
+  // }
 
   public async findUsers(): Promise<UsersEntity[]> {
     try {

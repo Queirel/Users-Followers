@@ -24,7 +24,7 @@ export class UsersController {
 
   @ApiTags('Users')
   @Post('register')
-  public async registerUser(@Body() body: UserDTO) {
+  public async registerUser(@Body() body) {
     return await this.usersService.createUser(body);
   }
 
