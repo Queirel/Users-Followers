@@ -52,12 +52,14 @@ export class FollowersService {
         // await this.followersRepository.save(follow);
       }
     }
-    await this.followersRepository
-      .createQueryBuilder()
-      .insert()
-      .into('followers')
-      .values(followArray)
-      .execute();
+
+    await this.followersRepository.save(followArray, { chunk: 30000 });
+    // await this.followersRepository
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into('followers')
+    //   .values(followArray)
+    //   .execute();
 
     await AppDS.destroy();
     const records = quantity * userQuantity;

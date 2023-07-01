@@ -18,7 +18,7 @@ const followers_entity_1 = require("../../followers/entities/followers.entity");
 let UsersEntity = exports.UsersEntity = class UsersEntity extends base_entity_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], UsersEntity.prototype, "username", void 0);
 __decorate([

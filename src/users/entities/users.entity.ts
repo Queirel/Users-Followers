@@ -20,7 +20,7 @@ export class UsersEntity extends BaseEntity implements IUser {
   // @Column({ unique: true })
   // email: string;
 
-  @Column({ unique: true })
+  @Column()
   username: string;
 
   @Exclude()

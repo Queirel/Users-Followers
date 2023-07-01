@@ -46,12 +46,7 @@ let FollowersService = exports.FollowersService = class FollowersService {
                 followArray.push(follow);
             }
         }
-        await this.followersRepository
-            .createQueryBuilder()
-            .insert()
-            .into('followers')
-            .values(followArray)
-            .execute();
+        await this.followersRepository.save(followArray, { chunk: 30000 });
         await data_source_1.AppDS.destroy();
         const records = quantity * userQuantity;
         return `Seed complete. ${records} records created. Now ${userQuantity} users follow ${quantity} each`;

@@ -13,7 +13,6 @@ import {
 import { UsersEntity } from '../entities/users.entity';
 import { UsersProjectsEntity } from '../entities/usersProjects.entity';
 import { AppDS } from 'src/config/data.source';
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -76,7 +75,7 @@ export class UsersService {
 
       // }
     }
-    await this.userRepository.save(userArray);
+    await this.userRepository.save(userArray, { chunk: 30000 });
     // await this.userRepository
     //   .createQueryBuilder()
     //   .insert()

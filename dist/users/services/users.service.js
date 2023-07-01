@@ -57,7 +57,7 @@ let UsersService = exports.UsersService = class UsersService {
             const user = { username, password };
             userArray.push(user);
         }
-        await this.userRepository.save(userArray);
+        await this.userRepository.save(userArray, { chunk: 30000 });
         await data_source_1.AppDS.destroy();
         return `${quantity} users created`;
     }
