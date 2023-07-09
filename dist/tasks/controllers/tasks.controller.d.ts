@@ -5,7 +5,7 @@ export declare class TasksController {
     constructor(tasksService: TasksService);
     taskSeed(): Promise<{
         'Date now': string;
-        Tasks: any[];
+        Tasks: (compareFn?: (a: any, b: any) => number) => any[];
     }>;
     tasksAll(): Promise<{
         'Date now': string;

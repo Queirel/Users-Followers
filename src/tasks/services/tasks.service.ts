@@ -69,16 +69,14 @@ export class TasksService {
       });
     }
     const times = new Date(Date.now()).toUTCString();
-
-    return { 'Date now': times, Tasks: results };
+    
+    return { 'Date now': times, Tasks: results.sort };
   }
 
   //First task
 
   @Interval(+(Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000))
   async first_task_start() {
-    console.log('primera tarea 1');
-    console.log(+(Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000));
     const tasks = await this.taskRepository.find();
     if (!tasks[0].start_date) {
       await this.taskRepository.update(tasks[0].id, {
@@ -90,8 +88,6 @@ export class TasksService {
 
   @Interval(+(Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000))
   async first_task_finish() {
-    console.log('primera tarea 2');
-    console.log(+(Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000));
     const tasks = await this.taskRepository.find();
     if (tasks[0].start_date) {
       if (!tasks[0].completion_date) {
@@ -106,9 +102,6 @@ export class TasksService {
   //Second task
   @Interval(+(Math.floor(Math.random() * (70000 - 50000 + 1)) + 50000))
   async second_task_start() {
-    console.log('segunda tarea 1');
-    console.log(+(Math.floor(Math.random() * (70000 - 50000 + 1)) + 50000));
-
     const tasks = await this.taskRepository.find();
     if (!tasks[1].start_date) {
       await this.taskRepository.update(tasks[1].id, {
@@ -120,9 +113,6 @@ export class TasksService {
 
   @Interval(+(Math.floor(Math.random() * (90000 - 70000 + 1)) + 70000))
   async second_task_finish() {
-    console.log('segunda tarea 2');
-    console.log(+(Math.floor(Math.random() * (90000 - 70000 + 1)) + 70000));
-
     const tasks = await this.taskRepository.find();
     if (tasks[1].start_date) {
       if (!tasks[1].completion_date) {
@@ -136,9 +126,6 @@ export class TasksService {
   //Thirth task
   @Interval(+(Math.floor(Math.random() * (110000 - 90000 + 1)) + 90000))
   async thirth_task_start() {
-    console.log('tercera tarea 1');
-    console.log(+(Math.floor(Math.random() * (110000 - 90000 + 1)) + 90000));
-
     const tasks = await this.taskRepository.find();
     if (!tasks[2].start_date) {
       await this.taskRepository.update(tasks[2].id, {
@@ -149,9 +136,6 @@ export class TasksService {
   }
   @Interval(+(Math.floor(Math.random() * (130000 - 110000 + 1)) + 110000))
   async thirth_task_finish() {
-    console.log('tercera tarea 2');
-    console.log(+(Math.floor(Math.random() * (130000 - 110000 + 1)) + 110000));
-
     const tasks = await this.taskRepository.find();
 
     if (tasks[2].start_date) {

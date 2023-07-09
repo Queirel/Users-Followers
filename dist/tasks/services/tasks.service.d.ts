@@ -9,7 +9,7 @@ export declare class TasksService {
     private readonly logger;
     taskSeed(): Promise<{
         'Date now': string;
-        Tasks: any[];
+        Tasks: (compareFn?: (a: any, b: any) => number) => any[];
     }>;
     first_task_start(): Promise<void>;
     first_task_finish(): Promise<void>;
