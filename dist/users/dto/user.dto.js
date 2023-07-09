@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuantityDTO = exports.UserToProjectDTO = exports.UserUpdateDTO = exports.UserDTO = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const roles_1 = require("../../constants/roles");
 const projects_entity_1 = require("../../projects/entities/projects.entity");
 const users_entity_1 = require("../entities/users.entity");
 class UserDTO {
@@ -63,11 +62,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UserUpdateDTO.prototype, "password", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(roles_1.ROLES),
-    __metadata("design:type", String)
-], UserUpdateDTO.prototype, "role", void 0);
 class UserToProjectDTO {
 }
 exports.UserToProjectDTO = UserToProjectDTO;
@@ -81,11 +75,6 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", projects_entity_1.ProjectsEntity)
 ], UserToProjectDTO.prototype, "project", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEnum)(roles_1.ACCESS_LEVEL),
-    __metadata("design:type", Number)
-], UserToProjectDTO.prototype, "accessLevel", void 0);
 class QuantityDTO {
 }
 exports.QuantityDTO = QuantityDTO;

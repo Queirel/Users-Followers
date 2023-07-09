@@ -1,10 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { QuantityDTO } from 'src/users/dto/user.dto';
+import { QuantityDTO } from '../../users/dto/user.dto';
 import { FollowersEntity } from '../entities/followers.entity';
-import { AppDS } from 'src/config/data.source';
+import { AppDS } from '../../config/data.source';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersEntity } from 'src/users/entities/users.entity';
+import { UsersEntity } from '../../users/entities/users.entity';
 import { FollowerDTO } from '../dto/follower.dto';
 
 @Injectable()
@@ -33,9 +33,8 @@ export class FollowersService {
     // const quantity = 20;
     const quantity = body.quantity;
     // const numeroAleatorio = Math.floor(Math.random() * 100);
-
     await AppDS.initialize();
-    const queryRunner = AppDS.createQueryRunner();
+    // const queryRunner = AppDS.createQueryRunner();
     // await queryRunner.query('TRUNCATE TABLE "followers" CASCADE');
 
     // await queryRunner.startTransaction();
@@ -54,6 +53,7 @@ export class FollowersService {
     }
 
     await this.followersRepository.save(followArray, { chunk: 30000 });
+
     // await this.followersRepository
     //   .createQueryBuilder()
     //   .insert()

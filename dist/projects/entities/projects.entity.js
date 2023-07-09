@@ -13,7 +13,6 @@ exports.ProjectsEntity = void 0;
 const typeorm_1 = require("typeorm");
 const base_entity_1 = require("../../config/base.entity");
 const usersProjects_entity_1 = require("../../users/entities/usersProjects.entity");
-const tasks_entity_1 = require("../../tasks/entities/tasks.entity");
 let ProjectsEntity = exports.ProjectsEntity = class ProjectsEntity extends base_entity_1.BaseEntity {
 };
 __decorate([
@@ -28,10 +27,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => usersProjects_entity_1.UsersProjectsEntity, (usersProjects) => usersProjects.project),
     __metadata("design:type", Array)
 ], ProjectsEntity.prototype, "usersIncludes", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => tasks_entity_1.TasksEntity, (tasks) => tasks.project),
-    __metadata("design:type", Array)
-], ProjectsEntity.prototype, "tasks", void 0);
 exports.ProjectsEntity = ProjectsEntity = __decorate([
     (0, typeorm_1.Entity)({ name: 'projects' })
 ], ProjectsEntity);

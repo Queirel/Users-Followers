@@ -6,9 +6,9 @@ export declare class UsersService {
     private readonly userRepository;
     private readonly userProjectRepository;
     constructor(userRepository: Repository<UsersEntity>, userProjectRepository: Repository<UsersProjectsEntity>);
-    createUser(body: any): Promise<void>;
+    createUser(body: any): Promise<any>;
     seedUser(body: QuantityDTO): Promise<string>;
-    findUsers(): Promise<UsersEntity[]>;
+    findUsers(): Promise<[UsersEntity[], number]>;
     findUserById(id: string): Promise<UsersEntity>;
     relationToProject(body: UserToProjectDTO): Promise<UserToProjectDTO & UsersProjectsEntity>;
     findBy({ key, value }: {

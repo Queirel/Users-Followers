@@ -18,6 +18,6 @@ export class ProjectsEntity extends BaseEntity implements IProject {
   )
   usersIncludes: UsersProjectsEntity[];
 
-  @OneToMany(() => TasksEntity, (tasks) => tasks.project)
-  tasks: TasksEntity[];
+  // @OneToMany(() => TasksEntity, (tasks) => tasks.project)
+  // tasks: TasksEntity[];
 }

@@ -4,7 +4,7 @@ import { UsersController } from './controllers/users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './entities/users.entity';
 import { UsersProjectsEntity } from './entities/usersProjects.entity';
-import { FollowersEntity } from 'src/followers/entities/followers.entity';
+import { FollowersEntity } from '../followers/entities/followers.entity';
 @Global()
 @Module({
   imports: [

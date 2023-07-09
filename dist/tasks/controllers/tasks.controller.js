@@ -15,25 +15,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const tasks_dto_1 = require("../dto/tasks.dto");
+const tasks_create_dto_1 = require("../dto/tasks-create.dto");
 const tasks_service_1 = require("../services/tasks.service");
 let TasksController = exports.TasksController = class TasksController {
     constructor(tasksService) {
         this.tasksService = tasksService;
     }
-    async createTask(body, projectId) {
-        return this.tasksService.createTask(body, projectId);
+    async taskSeed() {
+        return await this.tasksService.taskSeed();
+    }
+    async tasksAll() {
+        return await this.tasksService.tasksAll();
+    }
+    async createTask(body) {
+        return this.tasksService.createTask(body);
     }
 };
 __decorate([
-    (0, swagger_1.ApiParam)({
-        name: 'projectId',
-    }),
-    (0, common_1.Post)('create/:projectId'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('projectId')),
+    (0, swagger_1.ApiTags)('Tasks'),
+    (0, common_1.Get)('seed'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [tasks_dto_1.TasksDTO, String]),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "taskSeed", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Tasks'),
+    (0, common_1.Get)('all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "tasksAll", null);
+__decorate([
+    (0, common_1.Post)('create'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [tasks_create_dto_1.TasksCreateDTO]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "createTask", null);
 exports.TasksController = TasksController = __decorate([

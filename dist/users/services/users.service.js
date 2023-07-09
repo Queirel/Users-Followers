@@ -21,6 +21,7 @@ const typeorm_2 = require("typeorm");
 const users_entity_1 = require("../entities/users.entity");
 const usersProjects_entity_1 = require("../entities/usersProjects.entity");
 const data_source_1 = require("../../config/data.source");
+const followers_entity_1 = require("../../followers/entities/followers.entity");
 let UsersService = exports.UsersService = class UsersService {
     constructor(userRepository, userProjectRepository) {
         this.userRepository = userRepository;
@@ -28,22 +29,7 @@ let UsersService = exports.UsersService = class UsersService {
     }
     async createUser(body) {
         body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
-        const users = [
-            {
-                username: 'fedeasdre2',
-                password: 'passr',
-            },
-            {
-                username: 'federasde2',
-                password: 'passr',
-            },
-        ];
-        await this.userRepository
-            .createQueryBuilder()
-            .insert()
-            .into('users')
-            .values(users)
-            .execute();
+        return await this.userRepository.save(body);
     }
     async seedUser(body) {
         const quantity = body.quantity;
@@ -57,20 +43,22 @@ let UsersService = exports.UsersService = class UsersService {
             const user = { username, password };
             userArray.push(user);
         }
+        if (userArray.length > 29999) {
+            await this.userRepository.save(userArray, { chunk: 30000 });
+        }
         await this.userRepository.save(userArray, { chunk: 30000 });
         await data_source_1.AppDS.destroy();
         return `${quantity} users created`;
     }
     async findUsers() {
-        try {
-            const users = await this.userRepository.find();
-            if (users.length === 0) {
-            }
-            return users;
-        }
-        catch (error) {
-            throw new common_1.InternalServerErrorException('some error');
-        }
+        console.time('Execution Time');
+        const users = await this.userRepository
+            .createQueryBuilder('users')
+            .addSelect(['users.id', 'users.username', 'followers.following_id'])
+            .leftJoinAndMapMany('users.followers', followers_entity_1.FollowersEntity, 'followers', 'followers.follower_id = users.id')
+            .getManyAndCount();
+        console.timeEnd('Execution Time');
+        return users;
     }
     async findUserById(id) {
         try {
@@ -78,7 +66,6 @@ let UsersService = exports.UsersService = class UsersService {
                 .createQueryBuilder('user')
                 .where({ id })
                 .leftJoinAndSelect('user.projectsIncludes', 'projectsIncludes')
-                .leftJoinAndSelect('projectsIncludes.project', 'project')
                 .getOne();
             if (!user) {
             }

@@ -1,9 +1,19 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
 
 @Entity({ name: 'followers' })
-export class FollowersEntity extends BaseEntity {
+export class FollowersEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   follower_id: string;
 

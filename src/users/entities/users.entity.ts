@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 // import { ROLES } from '../../constants/roles';
 import { IUser } from '../../interfaces/user.interface';
@@ -7,7 +7,11 @@ import { UsersProjectsEntity } from './usersProjects.entity';
 import { FollowersEntity } from '../../followers/entities/followers.entity';
 
 @Entity({ name: 'users' })
-export class UsersEntity extends BaseEntity implements IUser {
+// extends BaseEntity implements IUser
+export class UsersEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   // @Column()
   // firstName: string;
 

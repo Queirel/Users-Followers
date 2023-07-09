@@ -12,7 +12,8 @@ import {
 } from '../dto/user.dto';
 import { UsersEntity } from '../entities/users.entity';
 import { UsersProjectsEntity } from '../entities/usersProjects.entity';
-import { AppDS } from 'src/config/data.source';
+import { AppDS } from '../../config/data.source';
+import { FollowersEntity } from '../../followers/entities/followers.entity';
 @Injectable()
 export class UsersService {
   constructor(
@@ -26,27 +27,28 @@ export class UsersService {
     // try {
     body.password = await bcrypt.hash(body.password, +process.env.HASH_SALT);
     // return await this.userRepository.save(body);
-    const users = [
-      {
-        username: 'fedeasdre2',
-        password: 'passr',
-      },
-      {
-        username: 'federasde2',
-        password: 'passr',
-      },
-    ];
+    // const users = [
+    //   {
+    //     username: 'fedeasdre2',
+    //     password: 'passr',
+    //   },
+    //   {
+    //     username: 'federasde2',
+    //     password: 'passr',
+    //   },
+    // ];
 
-    await this.userRepository
-      .createQueryBuilder()
-      .insert()
-      .into('users')
-      .values(users)
-      .execute();
+    return await this.userRepository.save(body);
+      // .createQueryBuilder()
+      // .insert()
+      // .into('users')
+      // .values(users)
+      // .execute();
     // return body;
     // } catch (error) {
     //   throw new InternalServerErrorException('some error');
     // }
+ 
   }
 
   // public async seedUser(body: SeedUserDTO): Promise<UsersEntity[]> {
@@ -75,6 +77,9 @@ export class UsersService {
 
       // }
     }
+    if (userArray.length > 29999) {
+      await this.userRepository.save(userArray, { chunk: 30000 });
+    }
     await this.userRepository.save(userArray, { chunk: 30000 });
     // await this.userRepository
     //   .createQueryBuilder()
@@ -100,19 +105,41 @@ export class UsersService {
   //   throw new InternalServerErrorException('some error');
   // }
 
-  public async findUsers(): Promise<UsersEntity[]> {
-    try {
-      const users: UsersEntity[] = await this.userRepository.find();
-      if (users.length === 0) {
-        // throw new ErrorManager({
-        //   type: 'BAD_REQUEST',
-        //   message: 'No se encontro resultado',
-        // });
-      }
-      return users;
-    } catch (error) {
-      throw new InternalServerErrorException('some error');
-    }
+  public async findUsers() {
+    // try {
+    console.time('Execution Time');
+    const users = await this.userRepository
+      .createQueryBuilder('users')
+      // .leftJoin('users.following', 'follower', 'follower_id = users.id')
+      // .leftJoinAndSelect('follower', 'usersname', 'users.id = follower_id')
+      .addSelect(['users.id', 'users.username', 'followers.following_id'])
+      .leftJoinAndMapMany(
+        'users.followers',
+        FollowersEntity,
+        'followers',
+        'followers.follower_id = users.id',
+      )
+      // .leftJoinAndMapMany(
+      //   'users.following',
+      //   FollowersEntity,
+      //   'following',
+      //   'followers.following_id = users.id',
+      // )
+      // .innerJoin('users.followers', 'followers', 'followers.follower_id = users.id')
+      // .leftJoin('users.followers', 'followers')
+      // .leftJoinAndSelect('users.following', 'followings')
+      .getManyAndCount();
+    // if (users.length === 0) {
+    //   // throw new ErrorManager({
+    //   //   type: 'BAD_REQUEST',
+    //   //   message: 'No se encontro resultado',
+    //   // });
+    // }
+    console.timeEnd('Execution Time');
+    return users;
+    // } catch (error) {
+    //   throw new InternalServerErrorException('some error');
+    // }
   }
 
   public async findUserById(id: string): Promise<UsersEntity> {
@@ -121,7 +148,7 @@ export class UsersService {
         .createQueryBuilder('user')
         .where({ id })
         .leftJoinAndSelect('user.projectsIncludes', 'projectsIncludes')
-        .leftJoinAndSelect('projectsIncludes.project', 'project')
+        // .leftJoinAndSelect('projectsIncludes.project', 'project')
         .getOne();
       if (!user) {
         // throw new ErrorManager({

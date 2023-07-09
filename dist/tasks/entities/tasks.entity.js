@@ -10,30 +10,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksEntity = void 0;
-const status_task_1 = require("../../constants/status-task");
-const projects_entity_1 = require("../../projects/entities/projects.entity");
 const typeorm_1 = require("typeorm");
-const base_entity_1 = require("../../config/base.entity");
-let TasksEntity = exports.TasksEntity = class TasksEntity extends base_entity_1.BaseEntity {
+const class_transformer_1 = require("class-transformer");
+let TasksEntity = exports.TasksEntity = class TasksEntity {
 };
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    __metadata("design:type", String)
+], TasksEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], TasksEntity.prototype, "task_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], TasksEntity.prototype, "task_description", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: 'ONTIME' }),
     __metadata("design:type", String)
 ], TasksEntity.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: 'CREATED' }),
+    __metadata("design:type", String)
+], TasksEntity.prototype, "progress", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Date)
 ], TasksEntity.prototype, "must_start_date", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)
 ], TasksEntity.prototype, "start_date", void 0);
 __decorate([
@@ -41,16 +44,9 @@ __decorate([
     __metadata("design:type", Date)
 ], TasksEntity.prototype, "must_completion_date", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)
 ], TasksEntity.prototype, "completion_date", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => projects_entity_1.ProjectsEntity, (project) => project.tasks),
-    (0, typeorm_1.JoinColumn)({
-        name: 'project_id',
-    }),
-    __metadata("design:type", projects_entity_1.ProjectsEntity)
-], TasksEntity.prototype, "project", void 0);
 exports.TasksEntity = TasksEntity = __decorate([
     (0, typeorm_1.Entity)({ name: 'task' })
 ], TasksEntity);

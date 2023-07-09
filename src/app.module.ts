@@ -8,10 +8,12 @@ import { TasksModule } from './tasks/tasks.module';
 // import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { AuthModule } from './auth/auth.module';
 import { FollowersModule } from './followers/followers.module';
+import { ScheduleModule } from '@nestjs/schedule';
 // import { FollowersModule } from './followers/followers.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,

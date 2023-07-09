@@ -35,7 +35,6 @@ let FollowersService = exports.FollowersService = class FollowersService {
         const userQuantity = users.length;
         const quantity = body.quantity;
         await data_source_1.AppDS.initialize();
-        const queryRunner = data_source_1.AppDS.createQueryRunner();
         const followArray = [];
         for (let xUser = 0; xUser < userQuantity; xUser++) {
             for (let xFollow = 0; xFollow < quantity; xFollow++) {

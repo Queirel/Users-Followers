@@ -12,11 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersEntity = void 0;
 const typeorm_1 = require("typeorm");
 const class_transformer_1 = require("class-transformer");
-const base_entity_1 = require("../../config/base.entity");
 const usersProjects_entity_1 = require("./usersProjects.entity");
 const followers_entity_1 = require("../../followers/entities/followers.entity");
-let UsersEntity = exports.UsersEntity = class UsersEntity extends base_entity_1.BaseEntity {
+let UsersEntity = exports.UsersEntity = class UsersEntity {
 };
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    __metadata("design:type", String)
+], UsersEntity.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

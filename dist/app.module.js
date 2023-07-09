@@ -16,11 +16,13 @@ const projects_module_1 = require("./projects/projects.module");
 const tasks_module_1 = require("./tasks/tasks.module");
 const auth_module_1 = require("./auth/auth.module");
 const followers_module_1 = require("./followers/followers.module");
+const schedule_1 = require("@nestjs/schedule");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            schedule_1.ScheduleModule.forRoot(),
             config_1.ConfigModule.forRoot({
                 envFilePath: `.${process.env.NODE_ENV}.env`,
                 isGlobal: true,
