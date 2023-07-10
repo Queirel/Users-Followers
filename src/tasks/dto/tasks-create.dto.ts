@@ -1,10 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PROGRESS, STATUS_TASK } from 'src/constants/status-task';
 import { ProjectDTO } from 'src/projects/dto/projects.dto';
 
 export class TasksCreateDTO {
 
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+  
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

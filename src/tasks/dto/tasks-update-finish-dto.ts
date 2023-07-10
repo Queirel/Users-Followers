@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsOptional } from 'class-validator';
 
-export class TasksUpdateDTO {
-  @ApiProperty()
-  @IsOptional()
-  @IsDate()
-  start_date?: Date;
+export class TasksUpdateFinishDTO {
+  // @ApiProperty()
+  // @IsOptional()
+  // @IsDate()
+  // start_date?: Date;
 
   @ApiProperty()
   @IsOptional()

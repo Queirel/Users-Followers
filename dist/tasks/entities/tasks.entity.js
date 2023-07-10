@@ -15,7 +15,6 @@ const class_transformer_1 = require("class-transformer");
 let TasksEntity = exports.TasksEntity = class TasksEntity {
 };
 __decorate([
-    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], TasksEntity.prototype, "id", void 0);
@@ -27,6 +26,10 @@ __decorate([
     (0, typeorm_1.Column)({ default: 'ONTIME' }),
     __metadata("design:type", String)
 ], TasksEntity.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], TasksEntity.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: 'CREATED' }),
     __metadata("design:type", String)
@@ -47,6 +50,16 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)
 ], TasksEntity.prototype, "completion_date", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    (0, typeorm_1.Column)({ nullable: true, default: false }),
+    __metadata("design:type", Boolean)
+], TasksEntity.prototype, "mail_start_send", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    (0, typeorm_1.Column)({ nullable: true, default: false }),
+    __metadata("design:type", Boolean)
+], TasksEntity.prototype, "mail_completion_send", void 0);
 exports.TasksEntity = TasksEntity = __decorate([
     (0, typeorm_1.Entity)({ name: 'task' })
 ], TasksEntity);

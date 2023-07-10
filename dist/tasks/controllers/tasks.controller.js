@@ -17,27 +17,28 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const tasks_create_dto_1 = require("../dto/tasks-create.dto");
 const tasks_service_1 = require("../services/tasks.service");
+const tasks_update_finish_dto_1 = require("../dto/tasks-update-finish-dto");
+const tasks_update_start_dto_1 = require("../dto/tasks-update-start-dto");
 let TasksController = exports.TasksController = class TasksController {
     constructor(tasksService) {
         this.tasksService = tasksService;
     }
-    async taskSeed() {
-        return await this.tasksService.taskSeed();
-    }
     async tasksAll() {
         return await this.tasksService.tasksAll();
+    }
+    async deleteAll() {
+        return await this.tasksService.deleteAll();
+    }
+    async start_Task(id, body) {
+        return await this.tasksService.start_Task(body, id);
+    }
+    async completion_Task(id, body) {
+        return await this.tasksService.completion_Task(body, id);
     }
     async createTask(body) {
         return this.tasksService.createTask(body);
     }
 };
-__decorate([
-    (0, swagger_1.ApiTags)('Tasks'),
-    (0, common_1.Get)('seed'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TasksController.prototype, "taskSeed", null);
 __decorate([
     (0, swagger_1.ApiTags)('Tasks'),
     (0, common_1.Get)('all'),
@@ -46,6 +47,38 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "tasksAll", null);
 __decorate([
+    (0, swagger_1.ApiTags)('Tasks'),
+    (0, common_1.Delete)('delete'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "deleteAll", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Tasks'),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+    }),
+    (0, common_1.Put)('start/:id'),
+    __param(0, (0, common_1.Param)('id', new common_1.ParseUUIDPipe())),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, tasks_update_start_dto_1.TasksUpdateStartDTO]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "start_Task", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Tasks'),
+    (0, swagger_1.ApiParam)({
+        name: 'id',
+    }),
+    (0, common_1.Put)('finish/:id'),
+    __param(0, (0, common_1.Param)('id', new common_1.ParseUUIDPipe())),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, tasks_update_finish_dto_1.TasksUpdateFinishDTO]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "completion_Task", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Tasks'),
     (0, common_1.Post)('create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

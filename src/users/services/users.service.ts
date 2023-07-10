@@ -39,16 +39,15 @@ export class UsersService {
     // ];
 
     return await this.userRepository.save(body);
-      // .createQueryBuilder()
-      // .insert()
-      // .into('users')
-      // .values(users)
-      // .execute();
+    // .createQueryBuilder()
+    // .insert()
+    // .into('users')
+    // .values(users)
+    // .execute();
     // return body;
     // } catch (error) {
     //   throw new InternalServerErrorException('some error');
     // }
- 
   }
 
   // public async seedUser(body: SeedUserDTO): Promise<UsersEntity[]> {

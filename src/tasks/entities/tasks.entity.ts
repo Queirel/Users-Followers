@@ -1,10 +1,11 @@
 import { PROGRESS, STATUS_TASK } from '../../constants/status-task';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { email } from '../../utils/email';
 
 @Entity({ name: 'task' })
 export class TasksEntity {
-  @Exclude()
+  // @Exclude()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,6 +24,9 @@ export class TasksEntity {
   // @Column({ default: 'CREATED' })
   // progress: PROGRESS;
 
+  @Column()
+  email: string;
+
   @Column({ default: 'CREATED' })
   progress: string;
 
@@ -37,6 +41,14 @@ export class TasksEntity {
 
   @Column({ nullable: true })
   completion_date: Date;
+
+  @Exclude()
+  @Column({ nullable: true, default: false })
+  mail_start_send: boolean;
+
+  @Exclude()
+  @Column({ nullable: true, default: false })
+  mail_completion_send: boolean;
 
   // @Column()
   // responsableName: string;
