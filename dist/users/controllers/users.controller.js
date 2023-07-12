@@ -33,9 +33,6 @@ let UsersController = exports.UsersController = class UsersController {
     async findAllUsers() {
         return await this.usersService.findAllUsers();
     }
-    async findAlliUsers() {
-        return await this.usersService.findAlliUsers();
-    }
     async firstFive() {
         return await this.usersService.firstFive();
     }
@@ -82,13 +79,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAllUsers", null);
-__decorate([
-    (0, swagger_1.ApiTags)('Users'),
-    (0, common_1.Get)('alli'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "findAlliUsers", null);
 __decorate([
     (0, swagger_1.ApiTags)('Users'),
     (0, common_1.Get)('five'),

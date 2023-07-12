@@ -248,55 +248,55 @@ export class TasksService {
   }
 
   //Checking time
-  @Cron(CronExpression.EVERY_MINUTE)
-  public async checkStatus() {
-    // this.logger.debug('Checking');
-    let i;
-    const tasks = await this.taskRepository.find();
-    for (i = 0; i < tasks.length; i++) {
-      if (!tasks[i].start_date) {
-        const compare_start = tasks[i].must_start_date.getTime() - Date.now();
-        if (compare_start < 0) {
-          if (tasks[i].mail_start_send == false) {
-            await this.taskRepository.update(tasks[i].id, {
-              status: 'LATE',
-              mail_start_send: true,
-            });
-            await email(
-              tasks[i].email,
-              'Late task start notice',
-              `The start of your task "${tasks[i].task_name}" is late`,
-            );
-          }
-        }
-      }
-      if (!tasks[i].completion_date) {
-        const compare_completion =
-          tasks[i].must_completion_date.getTime() - Date.now();
-        if (compare_completion < 0) {
-          if (tasks[i].mail_completion_send == false) {
-            await this.taskRepository.update(tasks[i].id, {
-              status: 'LATE',
-              mail_completion_send: true,
-            });
-            await email(
-              tasks[i].email,
-              'Late task completion notice',
-              `The completion of your task "${tasks[i].task_name}" is late`,
-            );
-          }
-        }
-      }
-      if (tasks[i].completion_date) {
-        if (
-          tasks[i].completion_date.getTime() <
-          tasks[i].must_completion_date.getTime()
-        ) {
-          await this.taskRepository.update(tasks[i].id, { status: 'ONTIME' });
-        }
-      }
-    }
-  }
+  // @Cron(CronExpression.EVERY_MINUTE)
+  // public async checkStatus() {
+  //   // this.logger.debug('Checking');
+  //   let i;
+  //   const tasks = await this.taskRepository.find();
+  //   for (i = 0; i < tasks.length; i++) {
+  //     if (!tasks[i].start_date) {
+  //       const compare_start = tasks[i].must_start_date.getTime() - Date.now();
+  //       if (compare_start < 0) {
+  //         if (tasks[i].mail_start_send == false) {
+  //           await this.taskRepository.update(tasks[i].id, {
+  //             status: 'LATE',
+  //             mail_start_send: true,
+  //           });
+  //           await email(
+  //             tasks[i].email,
+  //             'Late task start notice',
+  //             `The start of your task "${tasks[i].task_name}" is late`,
+  //           );
+  //         }
+  //       }
+  //     }
+  //     if (!tasks[i].completion_date) {
+  //       const compare_completion =
+  //         tasks[i].must_completion_date.getTime() - Date.now();
+  //       if (compare_completion < 0) {
+  //         if (tasks[i].mail_completion_send == false) {
+  //           await this.taskRepository.update(tasks[i].id, {
+  //             status: 'LATE',
+  //             mail_completion_send: true,
+  //           });
+  //           await email(
+  //             tasks[i].email,
+  //             'Late task completion notice',
+  //             `The completion of your task "${tasks[i].task_name}" is late`,
+  //           );
+  //         }
+  //       }
+  //     }
+  //     if (tasks[i].completion_date) {
+  //       if (
+  //         tasks[i].completion_date.getTime() <
+  //         tasks[i].must_completion_date.getTime()
+  //       ) {
+  //         await this.taskRepository.update(tasks[i].id, { status: 'ONTIME' });
+  //       }
+  //     }
+  //   }
+  // }
   // tasks[i].start_date = new Date(Date.now());
   // @Cron(CronExpression.EVERY_10_SECONDS)
   // handleCron() {

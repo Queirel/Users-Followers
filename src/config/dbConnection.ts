@@ -1,11 +1,11 @@
-import { Client } from 'pg'; // Configura los detalles de conexión a tu base de datos
-export const client = new Client({
-  host: 'localhost',
-  port: 5433, // Puerto por defecto de PostgreSQL
-  user: 'postgres',
-  password: 'password',
-  database: 'DB123456',
-});
+// import { Client } from 'pg'; // Configura los detalles de conexión a tu base de datos
+// export const client = new Client({
+//   host: 'localhost',
+//   port: 5433, // Puerto por defecto de PostgreSQL
+//   user: 'postgres',
+//   password: 'password',
+//   database: 'DB123456',
+// });
 
 // Conecta a la base de datos
 // client

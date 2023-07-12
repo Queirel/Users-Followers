@@ -49,11 +49,11 @@ export class UsersController {
     return await this.usersService.findAllUsers();
   }
 
-  @ApiTags('Users')
-  @Get('alli')
-  public async findAlliUsers() {
-    return await this.usersService.findAlliUsers();
-  }
+  // @ApiTags('Users')
+  // @Get('alli')
+  // public async findAlliUsers() {
+  //   return await this.usersService.findAlliUsers();
+  // }
 
   @ApiTags('Users')
   @Get('five')

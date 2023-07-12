@@ -14,7 +14,7 @@ import { UsersEntity } from '../entities/users.entity';
 import { UsersProjectsEntity } from '../entities/usersProjects.entity';
 import { AppDS } from '../../config/data.source';
 import { FollowersEntity } from '../../followers/entities/followers.entity';
-import { client } from 'src/config/dbConnection';
+// import { client } from 'src/config/dbConnection';
 @Injectable()
 export class UsersService {
   constructor(
@@ -154,29 +154,29 @@ export class UsersService {
     });
     return users;
   }
-  public async findAlliUsers() {
-    await client.connect().then(async () => {
-      console.log('Conexión exitosa a la base de datos');
+  // public async findAlliUsers() {
+  //   await client.connect().then(async () => {
+  //     console.log('Conexión exitosa a la base de datos');
 
-      // Realiza una consulta a la base de datos
-      return await client.query('SELECT * FROM "users"');
-    });
-    await client.end();
-    // .then((result) => {
-    //   console.log('Resultados:', result.rows);
-    // })
-    // .catch((error) => {
-    //   console.error('Error al conectar o consultar la base de datos:', error);
-    // })
-    // .finally(() => {
-    //   // Cierra la conexión
-    //   client.end();
-    // }
-    // );
+  //     // Realiza una consulta a la base de datos
+  //     return await client.query('SELECT * FROM "users"');
+  //   });
+  //   await client.end();
+  //   // .then((result) => {
+  //   //   console.log('Resultados:', result.rows);
+  //   // })
+  //   // .catch((error) => {
+  //   //   console.error('Error al conectar o consultar la base de datos:', error);
+  //   // })
+  //   // .finally(() => {
+  //   //   // Cierra la conexión
+  //   //   client.end();
+  //   // }
+  //   // );
 
-    // const users = await this.userRepository.find();
-    // return users;
-  }
+  //   // const users = await this.userRepository.find();
+  //   // return users;
+  // }
 
   public async firstFive() {
     // console.time('Execution Time');
@@ -185,7 +185,8 @@ export class UsersService {
     const queryRunner = AppDS.createQueryRunner();
     // await queryRunner.connect();
     // const users = await queryRunner.query('SELECT username FROM "users"');
-    const users = await queryRunner.query(`SELECT users.username, COUNT(followers.following_id) AS cantidad_followers 
+    const users =
+      await queryRunner.query(`SELECT users.username, COUNT(followers.following_id) AS cantidad_followers 
     FROM users
     LEFT JOIN followers ON users.id = followers.following_id
     GROUP BY users.username

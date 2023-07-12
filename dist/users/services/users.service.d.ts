@@ -10,7 +10,6 @@ export declare class UsersService {
     seedUser(body: QuantityDTO): Promise<string>;
     findUsers(): Promise<[UsersEntity[], number]>;
     findAllUsers(): Promise<UsersEntity[]>;
-    findAlliUsers(): Promise<void>;
     firstFive(): Promise<any>;
     findUserById(id: string): Promise<UsersEntity>;
     relationToProject(body: UserToProjectDTO): Promise<UserToProjectDTO & UsersProjectsEntity>;

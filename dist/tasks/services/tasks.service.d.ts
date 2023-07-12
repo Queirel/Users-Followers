@@ -17,5 +17,4 @@ export declare class TasksService {
         'Date now': string;
         Tasks: any[];
     }>;
-    checkStatus(): Promise<void>;
 }

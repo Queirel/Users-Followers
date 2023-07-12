@@ -16,7 +16,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const schedule_1 = require("@nestjs/schedule");
 const typeorm_2 = require("typeorm");
 const tasks_entity_1 = require("../entities/tasks.entity");
 const projects_service_1 = require("../../projects/services/projects.service");
@@ -90,49 +89,7 @@ let TasksService = exports.TasksService = TasksService_1 = class TasksService {
             }),
         };
     }
-    async checkStatus() {
-        let i;
-        const tasks = await this.taskRepository.find();
-        for (i = 0; i < tasks.length; i++) {
-            if (!tasks[i].start_date) {
-                const compare_start = tasks[i].must_start_date.getTime() - Date.now();
-                if (compare_start < 0) {
-                    if (tasks[i].mail_start_send == false) {
-                        await this.taskRepository.update(tasks[i].id, {
-                            status: 'LATE',
-                            mail_start_send: true,
-                        });
-                        await (0, email_1.email)(tasks[i].email, 'Late task start notice', `The start of your task "${tasks[i].task_name}" is late`);
-                    }
-                }
-            }
-            if (!tasks[i].completion_date) {
-                const compare_completion = tasks[i].must_completion_date.getTime() - Date.now();
-                if (compare_completion < 0) {
-                    if (tasks[i].mail_completion_send == false) {
-                        await this.taskRepository.update(tasks[i].id, {
-                            status: 'LATE',
-                            mail_completion_send: true,
-                        });
-                        await (0, email_1.email)(tasks[i].email, 'Late task completion notice', `The completion of your task "${tasks[i].task_name}" is late`);
-                    }
-                }
-            }
-            if (tasks[i].completion_date) {
-                if (tasks[i].completion_date.getTime() <
-                    tasks[i].must_completion_date.getTime()) {
-                    await this.taskRepository.update(tasks[i].id, { status: 'ONTIME' });
-                }
-            }
-        }
-    }
 };
-__decorate([
-    (0, schedule_1.Cron)(schedule_1.CronExpression.EVERY_MINUTE),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TasksService.prototype, "checkStatus", null);
 exports.TasksService = TasksService = TasksService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(tasks_entity_1.TasksEntity)),

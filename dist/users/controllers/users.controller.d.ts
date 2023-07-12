@@ -7,7 +7,6 @@ export declare class UsersController {
     seedUser(body: QuantityDTO): Promise<string>;
     findUsers(): Promise<[import("../entities/users.entity").UsersEntity[], number]>;
     findAllUsers(): Promise<import("../entities/users.entity").UsersEntity[]>;
-    findAlliUsers(): Promise<void>;
     firstFive(): Promise<any>;
     findUserById(id: string): Promise<import("../entities/users.entity").UsersEntity>;
     addToProject(body: UserToProjectDTO, id: string): Promise<UserToProjectDTO & import("../entities/usersProjects.entity").UsersProjectsEntity>;

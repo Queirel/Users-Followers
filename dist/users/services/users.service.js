@@ -22,7 +22,6 @@ const users_entity_1 = require("../entities/users.entity");
 const usersProjects_entity_1 = require("../entities/usersProjects.entity");
 const data_source_1 = require("../../config/data.source");
 const followers_entity_1 = require("../../followers/entities/followers.entity");
-const dbConnection_1 = require("../../config/dbConnection");
 let UsersService = exports.UsersService = class UsersService {
     constructor(userRepository, userProjectRepository) {
         this.userRepository = userRepository;
@@ -69,13 +68,6 @@ let UsersService = exports.UsersService = class UsersService {
             relations: ['followers', 'followers'],
         });
         return users;
-    }
-    async findAlliUsers() {
-        await dbConnection_1.client.connect().then(async () => {
-            console.log('Conexión exitosa a la base de datos');
-            return await dbConnection_1.client.query('SELECT * FROM "users"');
-        });
-        await dbConnection_1.client.end();
     }
     async firstFive() {
         await data_source_1.AppDS.initialize();
