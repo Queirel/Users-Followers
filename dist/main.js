@@ -10,6 +10,7 @@ const swagger_1 = require("@nestjs/swagger");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         snapshot: true,
+        cors: true,
     });
     app.use(morgan('dev'));
     app.useGlobalPipes(new common_1.ValidationPipe({

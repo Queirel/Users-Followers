@@ -209,7 +209,7 @@ export class TasksService {
     const queryRunner = AppDS.createQueryRunner();
     await queryRunner.query('TRUNCATE TABLE "task" CASCADE');
     await AppDS.destroy();
-    return 'All tasks deleted'
+    return 'All tasks deleted';
   }
 
   public async tasksAll() {
