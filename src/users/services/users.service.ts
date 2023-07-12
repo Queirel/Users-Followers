@@ -14,6 +14,7 @@ import { UsersEntity } from '../entities/users.entity';
 import { UsersProjectsEntity } from '../entities/usersProjects.entity';
 import { AppDS } from '../../config/data.source';
 import { FollowersEntity } from '../../followers/entities/followers.entity';
+import { client } from 'src/config/dbConnection';
 @Injectable()
 export class UsersService {
   constructor(
@@ -78,8 +79,9 @@ export class UsersService {
     }
     if (userArray.length > 29999) {
       await this.userRepository.save(userArray, { chunk: 30000 });
+    } else {
+      await this.userRepository.save(userArray);
     }
-    await this.userRepository.save(userArray, { chunk: 30000 });
     // await this.userRepository
     //   .createQueryBuilder()
     //   .insert()
@@ -139,6 +141,64 @@ export class UsersService {
     // } catch (error) {
     //   throw new InternalServerErrorException('some error');
     // }
+  }
+
+  public async findAllUsers() {
+    const users = await this.userRepository.find({
+      select: ['username'],
+      relations: ['followers', 'followers'],
+      // take: 5,
+      // order: {
+      //   followers: 'DESC',
+      // }
+    });
+    return users;
+  }
+  public async findAlliUsers() {
+    await client.connect().then(async () => {
+      console.log('Conexión exitosa a la base de datos');
+
+      // Realiza una consulta a la base de datos
+      return await client.query('SELECT * FROM "users"');
+    });
+    await client.end();
+    // .then((result) => {
+    //   console.log('Resultados:', result.rows);
+    // })
+    // .catch((error) => {
+    //   console.error('Error al conectar o consultar la base de datos:', error);
+    // })
+    // .finally(() => {
+    //   // Cierra la conexión
+    //   client.end();
+    // }
+    // );
+
+    // const users = await this.userRepository.find();
+    // return users;
+  }
+
+  public async firstFive() {
+    // console.time('Execution Time');
+
+    await AppDS.initialize();
+    const queryRunner = AppDS.createQueryRunner();
+    // await queryRunner.connect();
+    // const users = await queryRunner.query('SELECT username FROM "users"');
+    const users = await queryRunner.query(`SELECT users.username, COUNT(followers.following_id) AS cantidad_followers 
+    FROM users
+    LEFT JOIN followers ON users.id = followers.following_id
+    GROUP BY users.username
+    ORDER BY cantidad_followers DESC
+    LIMIT 5`);
+    await AppDS.destroy();
+
+    // const users = await this.userRepository
+    //   .createQueryBuilder('users')
+    //   .select('*').getCount(id)
+    //   .getManyAndCount();
+    // console.timeEnd('Execution Time');
+    return users;
   }
 
   public async findUserById(id: string): Promise<UsersEntity> {

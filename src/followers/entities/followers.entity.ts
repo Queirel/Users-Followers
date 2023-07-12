@@ -8,15 +8,18 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
 import { UsersEntity } from '../../users/entities/users.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'followers' })
 export class FollowersEntity {
+  @Exclude()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Exclude()
   @Column()
   follower_id: string;
-
+  // @Exclude()
   @Column()
   following_id: string;
 

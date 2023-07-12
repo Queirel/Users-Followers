@@ -39,8 +39,26 @@ export class UsersController {
   // })
   @ApiTags('Users')
   @Get('all')
-  public async findAllUsers() {
+  public async findUsers() {
     return await this.usersService.findUsers();
+  }
+
+  @ApiTags('Users')
+  @Get('allUsers')
+  public async findAllUsers() {
+    return await this.usersService.findAllUsers();
+  }
+
+  @ApiTags('Users')
+  @Get('alli')
+  public async findAlliUsers() {
+    return await this.usersService.findAlliUsers();
+  }
+
+  @ApiTags('Users')
+  @Get('five')
+  public async firstFive() {
+    return await this.usersService.firstFive();
   }
 
   @ApiTags('Users')

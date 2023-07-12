@@ -5,7 +5,10 @@ export declare class UsersController {
     constructor(usersService: UsersService);
     registerUser(body: any): Promise<any>;
     seedUser(body: QuantityDTO): Promise<string>;
-    findAllUsers(): Promise<[import("../entities/users.entity").UsersEntity[], number]>;
+    findUsers(): Promise<[import("../entities/users.entity").UsersEntity[], number]>;
+    findAllUsers(): Promise<import("../entities/users.entity").UsersEntity[]>;
+    findAlliUsers(): Promise<void>;
+    firstFive(): Promise<any>;
     findUserById(id: string): Promise<import("../entities/users.entity").UsersEntity>;
     addToProject(body: UserToProjectDTO, id: string): Promise<UserToProjectDTO & import("../entities/usersProjects.entity").UsersProjectsEntity>;
     updateUser(id: string, body: UserUpdateDTO): Promise<import("typeorm").UpdateResult>;

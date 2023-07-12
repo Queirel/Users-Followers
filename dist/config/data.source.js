@@ -19,6 +19,7 @@ exports.DataSourceConfig = {
     synchronize: false,
     migrationsRun: true,
     logging: false,
+    cache: true,
 };
 exports.AppDS = new typeorm_1.DataSource(exports.DataSourceConfig);
 //# sourceMappingURL=data.source.js.map

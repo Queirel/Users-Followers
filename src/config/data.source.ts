@@ -26,6 +26,7 @@ export const DataSourceConfig: DataSourceOptions = {
   synchronize: false,
   migrationsRun: true,
   logging: false,
+  cache: true,
   // runSeeders: [InitSeeder],
   // namingStrategy: new SnakeNamingStrategy(),
 };

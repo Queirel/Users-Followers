@@ -12,13 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FollowersEntity = void 0;
 const typeorm_1 = require("typeorm");
 const users_entity_1 = require("../../users/entities/users.entity");
+const class_transformer_1 = require("class-transformer");
 let FollowersEntity = exports.FollowersEntity = class FollowersEntity {
 };
 __decorate([
+    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], FollowersEntity.prototype, "id", void 0);
 __decorate([
+    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], FollowersEntity.prototype, "follower_id", void 0);

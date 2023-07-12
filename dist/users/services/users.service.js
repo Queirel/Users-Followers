@@ -22,6 +22,7 @@ const users_entity_1 = require("../entities/users.entity");
 const usersProjects_entity_1 = require("../entities/usersProjects.entity");
 const data_source_1 = require("../../config/data.source");
 const followers_entity_1 = require("../../followers/entities/followers.entity");
+const dbConnection_1 = require("../../config/dbConnection");
 let UsersService = exports.UsersService = class UsersService {
     constructor(userRepository, userProjectRepository) {
         this.userRepository = userRepository;
@@ -46,7 +47,9 @@ let UsersService = exports.UsersService = class UsersService {
         if (userArray.length > 29999) {
             await this.userRepository.save(userArray, { chunk: 30000 });
         }
-        await this.userRepository.save(userArray, { chunk: 30000 });
+        else {
+            await this.userRepository.save(userArray);
+        }
         await data_source_1.AppDS.destroy();
         return `${quantity} users created`;
     }
@@ -58,6 +61,32 @@ let UsersService = exports.UsersService = class UsersService {
             .leftJoinAndMapMany('users.followers', followers_entity_1.FollowersEntity, 'followers', 'followers.follower_id = users.id')
             .getManyAndCount();
         console.timeEnd('Execution Time');
+        return users;
+    }
+    async findAllUsers() {
+        const users = await this.userRepository.find({
+            select: ['username'],
+            relations: ['followers', 'followers'],
+        });
+        return users;
+    }
+    async findAlliUsers() {
+        await dbConnection_1.client.connect().then(async () => {
+            console.log('Conexión exitosa a la base de datos');
+            return await dbConnection_1.client.query('SELECT * FROM "users"');
+        });
+        await dbConnection_1.client.end();
+    }
+    async firstFive() {
+        await data_source_1.AppDS.initialize();
+        const queryRunner = data_source_1.AppDS.createQueryRunner();
+        const users = await queryRunner.query(`SELECT users.username, COUNT(followers.following_id) AS cantidad_followers 
+    FROM users
+    LEFT JOIN followers ON users.id = followers.following_id
+    GROUP BY users.username
+    ORDER BY cantidad_followers DESC
+    LIMIT 5`);
+        await data_source_1.AppDS.destroy();
         return users;
     }
     async findUserById(id) {

@@ -27,8 +27,17 @@ let UsersController = exports.UsersController = class UsersController {
     async seedUser(body) {
         return await this.usersService.seedUser(body);
     }
-    async findAllUsers() {
+    async findUsers() {
         return await this.usersService.findUsers();
+    }
+    async findAllUsers() {
+        return await this.usersService.findAllUsers();
+    }
+    async findAlliUsers() {
+        return await this.usersService.findAlliUsers();
+    }
+    async firstFive() {
+        return await this.usersService.firstFive();
     }
     async findUserById(id) {
         return await this.usersService.findUserById(id);
@@ -65,7 +74,28 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
+], UsersController.prototype, "findUsers", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Users'),
+    (0, common_1.Get)('allUsers'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAllUsers", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Users'),
+    (0, common_1.Get)('alli'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findAlliUsers", null);
+__decorate([
+    (0, swagger_1.ApiTags)('Users'),
+    (0, common_1.Get)('five'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "firstFive", null);
 __decorate([
     (0, swagger_1.ApiTags)('Users'),
     (0, swagger_1.ApiParam)({
